@@ -11,57 +11,22 @@ def printMaze (maze) :
     for line in maze :
         print(line)
 
-def neighbors(maze, pos) :
-    mazeSize = mazeDimensions(maze)
-    directions = {
-        "U" : False,
-        "D" : False,
-        "L" : False,
-        "R" : False
-    }
-    validSpaces = [".","S","G"]
-    if (0 < pos["x"] < mazeSize["x"]) and (0 < pos["y"] < mazeSize["y"]) :
-        if (maze[pos["y"] - 1][pos["x"]] in validSpaces) :
-            directions["U"] = True
-        if (maze[pos["y"] + 1][pos["x"]] in validSpaces) :
-            directions["D"] = True
-        if (maze[pos["y"]][pos["x"] - 1] in validSpaces) :
-            directions["L"] = True
-        if (maze[pos["y"]][pos["x"] + 1] in validSpaces) :
-            directions["R"] = True
-
-    return directions
-
-
-def mazeDimensions(maze) :
-    return toPos(len(maze[0]),len(maze))
-
 def findEnds(maze) :
-    ends = {
-        "S" : "",
-        "G" : ""
-    }
+    start = None
+    goal = None
+    DIRS = [(-1,0),(1,0),(0,1),(0,-1)] #Up, Down, Left, Right
     for y in range(len(maze)) :
-        for x in range(len(maze[y])):
-            if maze[y][x] in ["S", "G"] :
-                ends[maze[y][x]] = toPos(x,y)
+        for x in range(len(maze[0])) :
+            if (maze[y][x] == "S") :
+                start = (y,x)
+            elif (maze[y][x] == "G") :
+                goal = (y,x)
+    return start, goal
 
-    return ends
-
-def checkSolved(maze, pos) :
-    if (maze[pos["y"][pos["x"]]] == "G") :
-        return True
-    return False
-            
-def toPos(x,y) :
-    return {
-        "x" : x,
-        "y" : y
-    }
-
-maze = openMaze("maze.txt")
-
-printMaze(maze)
-
-mazeEnds = findEnds(maze)
-print(neighbors(maze,mazeEnds["S"]))
+def buildPath(parents, goal) :
+    path = []
+    current = goal
+    while current in parents :
+        path.append(current)
+        cur = parents[cur]
+    return path[::-1]
