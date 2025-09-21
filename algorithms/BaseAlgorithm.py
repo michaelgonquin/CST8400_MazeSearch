@@ -41,7 +41,7 @@ class BaseAlgorithm :
     
     def pathInfo(self) :
         result = self.execute()
-        return f"Algorithm Name: {self.algorithmName}\nMoves Taken: {len(result)}\nExplored States: {self.exploredStates}\nCoordinate Path: {result}\nRelative Path: {self.translatePath(result)}"
+        return f"Algorithm Name: {self.algorithmName}\nMoves Taken: {len(result)}\nExplored States: {self.exploredStates}\nCoordinate Path: {result}\nRelative Path: {self.translatePath(result)}\n\n"
 
     def translatePath(self, path) :
         moves = [self.findEnds()[0]]
